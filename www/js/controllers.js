@@ -111,10 +111,12 @@ angular.module('starter.controllers', [])
     });
 
     var posOptions = {timeout: 10000, enableHighAccuracy: false};
+    
     $cordovaGeolocation
     .getCurrentPosition(posOptions)
     .then(function (position) {
       $ionicLoading.hide();
+
       DenunciasService.denunciar(tipo, {
         'lat' : position.coords.latitude, 
         'lon' : position.coords.longitude
@@ -124,6 +126,7 @@ angular.module('starter.controllers', [])
         alert('Error');
         console.log( JSON.stringify(err) );
       });
+
     }, function(err) {
       // error
       $ionicLoading.hide();

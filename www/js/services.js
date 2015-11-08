@@ -5,7 +5,7 @@ angular.module('starter.services', ['ngResource'])
   var denunciasRes = $resource( apiUrl + '/denuncias/crear/', {
     platform : ionic.Platform.platform().toString(),
   },{ 'crear' : { 
-    isArray : true,
+    isArray : false,
     method : 'POST',
     withCredentials : true,
     headers : {
@@ -25,7 +25,7 @@ angular.module('starter.services', ['ngResource'])
       var deferred = $q.defer();
       var promise = deferred.promise;
 
-      denunciasRes.crear({
+      denunciasRes.crear({},{
         'tipo' : tipo,
         'lugar' : 'SRID=4326;POINT ('+geo.lat+' '+ geo.lon +')' 
       },
