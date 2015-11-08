@@ -1,9 +1,9 @@
 angular.module('starter.controllers', [])
 
-.controller('DashCtrl', function ($scope, $cordovaGeolocation, $ionicLoading, $ionicPopup, $http) {
+.controller('DashCtrl', function ($scope, $cordovaGeolocation, $ionicLoading, $ionicPopup, $http, $log, apiUrl) {
 
   $ionicLoading.show({
-      template: 'Espere...'
+      template: 'Ubicando...'
   });
 
   $scope.triggerPanicControl = function () {
@@ -21,10 +21,13 @@ angular.module('starter.controllers', [])
             var long = position.coords.longitude;
             var final = "SRID=4326;POINT (" + long + " " + lat + ")";
             alert(final);
-            var conAjax = $http.post("http://guardian.aaj.webfactional.com/denuncias/track", {punto: final});
-            conAjax.success(function (respuesta) {
+            var conAjax = $http.post(apiUrl + "/denuncias/track", {punto: final})
+            .then(function (respuesta) {
                 console.log(respuesta);
                 alert("si entro al succes");
+            }, function(err){
+              $log.error('Error AJAX');
+              $log.error( JSON.stringify(err));
             });
         });
   };
@@ -71,9 +74,14 @@ angular.module('starter.controllers', [])
 })
 
 .controller('AccountCtrl', function($scope, $cordovaContacts, $ionicPlatform) {
+  
   $scope.pickContactUsingNativeUI = function () {
     $cordovaContacts.pickContact().then(function (contactPicked) {
       $scope.contact = contactPicked;
-    })
+    });
   }
+
+
+
+
 });
