@@ -64,6 +64,41 @@ angular.module('starter.controllers', [])
 
   });
 
+  $scope.locateMeOnMap = function(){
+    $ionicLoading.show({
+      template: 'localizando...'
+    });
+
+    var posOptions = {timeout: 10000, enableHighAccuracy: false};
+    $cordovaGeolocation
+    .getCurrentPosition(posOptions)
+    .then(function (position) {
+      $ionicLoading.hide();
+      var pos = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+      //creating the marker
+      var marker = new google.maps.Marker({
+        title : 'Usted esta aqui',
+        map : $scope.map,
+        position : pos,
+        visible: false
+      });
+      //cambiando el centro a ubicación usuario        
+      $scope.map.setCenter(pos);
+    }, function(err) {
+      // error
+      $ionicLoading.hide();
+      if( JSON.stringify(err) === '{}' ){
+        $ionicPopup.alert({
+         title: 'Error GPS',
+         template: 'Parece que su dispositvo tiene apagado el GPS. Actívelo para continuar'
+       });
+      }else{
+        alert('GEO GET --> ' + JSON.stringify(err));
+      }
+    });
+
+  };
+
 })
 
 .controller('DenunciasCtrl', function($scope){
