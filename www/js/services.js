@@ -27,7 +27,7 @@ angular.module('starter.services', ['ngResource'])
 
       denunciasRes.crear({},{
         'tipo' : tipo,
-        'lugar' : 'SRID=4326;POINT ('+geo.lat+' '+ geo.lon +')' 
+        'lugar' : 'SRID=4326;POINT ('+geo.lon+' '+ geo.lat +')' 
       },
       function(resp){
         $log.debug('Denuncia se a creado correctamente');
