@@ -108,16 +108,39 @@ angular.module('starter.controllers', [])
 
 })
 
-.controller('DenunciasCtrl', function($scope, DenunciasService){
+.controller('DenunciasCtrl', function($scope, $cordovaGeolocation, $ionicLoading, DenunciasService){
 
   $scope.EnviarDenuncia = function(tipo){
-    //alert( tipo );
 
-    DenunciasService.denunciar(tipo, 'Necesito ayuda urgente').then(function(resp){
-      alert('Su denuncia se ha recibido');
-    }, function(err){
-      alert('Error');
-      console.log( JSON.stringify(err) );
+    $ionicLoading.show({
+      template: 'Espere obtenenos su ubicacion...'
+    });
+
+    var posOptions = {timeout: 10000, enableHighAccuracy: false};
+    $cordovaGeolocation
+    .getCurrentPosition(posOptions)
+    .then(function (position) {
+      $ionicLoading.hide();
+      DenunciasService.denunciar(tipo, {
+        'lat' : position.coords.latitude, 
+        'lon' : position.coords.longitude
+      }).then(function(resp){
+        alert('Su denuncia se ha recibido');
+      }, function(err){
+        alert('Error');
+        console.log( JSON.stringify(err) );
+      });
+    }, function(err) {
+      // error
+      $ionicLoading.hide();
+      if( JSON.stringify(err) === '{}' ){
+        $ionicPopup.alert({
+         title: 'Error GPS',
+         template: 'Parece que su dispositvo tiene apagado el GPS. Actívelo para continuar'
+       });
+      }else{
+        alert('GEO GET --> ' + JSON.stringify(err));
+      }
     });
 
   }
