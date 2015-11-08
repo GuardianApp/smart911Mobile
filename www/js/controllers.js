@@ -1,15 +1,10 @@
 angular.module('starter.controllers', [])
 
-<<<<<<< HEAD
 .controller('DashCtrl', function ($scope, $cordovaGeolocation, $ionicLoading, $ionicPopup, $http, $log, apiUrl) {
     $scope.lat = 0;
     $scope.long = 0;
     $scope.status = "Esperando";
     
-=======
-.controller('DashCtrl', function($scope, $cordovaGeolocation, $ionicLoading, $ionicPopup, $http, $log, apiUrl) {
-
->>>>>>> 163271d41964ab15b444f0814abbac603668e333
   $ionicLoading.show({
       template: 'Ubicando...'
   });
