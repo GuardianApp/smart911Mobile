@@ -1,5 +1,18 @@
 <ion-view view-title="Contactos Emergencia">
-  <ion-content>
-  	
-  </ion-content>
+	<ion-nav-buttons side="secondary">
+    	<button class="button button-clear" ng-click="pickContactUsingNativeUI();"><i class="icon ion-person-add"></i></button>
+  	</ion-nav-buttons>
+  	<ion-content>
+  		<ion-list>
+            <ion-item class="item-remove-animate item-avatar" ng-repeat="contact in contacts" type="item-text-wrap">
+                <img ng-src="{{contact.photos[0].value}}">
+                <h2>{{contact.name.formatted}}</h2>
+                <p>{{contact.phoneNumbers[0].value}}</p>
+                <p>{{contact.emails[0].value}}</p>
+                <ion-option-button class="button-assertive" ng-click="remove(contact)">
+                    Remover
+                </ion-option-button>
+            </ion-item>
+        </ion-list>
+  	</ion-content>
 </ion-view>

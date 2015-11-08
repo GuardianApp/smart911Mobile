@@ -108,11 +108,12 @@ angular.module('starter.controllers', [])
 
 })
 
-.controller('AccountCtrl', function($scope, $cordovaContacts, $ionicPlatform) {
+.controller('AccountCtrl', function($scope, $cordovaContacts, $ionicPlatform, $log) {
   
+  $scope.contacts = [];
   $scope.pickContactUsingNativeUI = function () {
     $cordovaContacts.pickContact().then(function (contactPicked) {
-      $scope.contact = contactPicked;
+      $scope.contacts.push(contactPicked);
     });
   }
 
