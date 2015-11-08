@@ -3,6 +3,7 @@
     <button class="button button-clear" ng-click="locateMeOnMap();"><i class="icon ion-ios-location"></i></button>
   </ion-nav-buttons>
   <ion-content>
+    
     <map zoom="17"></map>
     <button on-hold="triggerPanicControl()"
     style="position: absolute;
@@ -13,5 +14,6 @@
     width: 90px;" class="button button-assertive">
       ¡AYUDA!
     </button>
+    <p style="color: red; position:  absolute; top: 5%; left: 50%;"><span style=" font-weight: bold">Status: </span><span>{{status}}</span></p>
   </ion-content>
 </ion-view>
