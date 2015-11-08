@@ -1,50 +1,52 @@
-angular.module('starter.services', [])
+angular.module('starter.services', ['ngResource'])
 
-.factory('Chats', function() {
-  // Might use a resource here that returns a JSON array
+.service('DenunciasService', function($q, $resource, $ionicLoading, $log, apiUrl){
 
-  // Some fake testing data
-  var chats = [{
-    id: 0,
-    name: 'Ben Sparrow',
-    lastText: 'You on your way?',
-    face: 'img/ben.png'
-  }, {
-    id: 1,
-    name: 'Max Lynx',
-    lastText: 'Hey, it\'s me',
-    face: 'img/max.png'
-  }, {
-    id: 2,
-    name: 'Adam Bradleyson',
-    lastText: 'I should buy a boat',
-    face: 'img/adam.jpg'
-  }, {
-    id: 3,
-    name: 'Perry Governor',
-    lastText: 'Look at my mukluks!',
-    face: 'img/perry.png'
-  }, {
-    id: 4,
-    name: 'Mike Harrington',
-    lastText: 'This is wicked good ice cream.',
-    face: 'img/mike.png'
-  }];
-
-  return {
-    all: function() {
-      return chats;
+  var denunciasRes = $resource( apiUrl + '/denuncias/crear/', {
+    platform : ionic.Platform.platform().toString(),
+  },{ 'crear' : { 
+    isArray : true,
+    method : 'POST',
+    withCredentials : true,
+    headers : {
+      'Content-Type':'application/x-www-form-urlencoded; charset=UTF-8'
     },
-    remove: function(chat) {
-      chats.splice(chats.indexOf(chat), 1);
-    },
-    get: function(chatId) {
-      for (var i = 0; i < chats.length; i++) {
-        if (chats[i].id === parseInt(chatId)) {
-          return chats[i];
-        }
+    transformRequest : function(obj){
+        var str = [];
+        for(var p in obj)
+          str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+        return str.join("&");
       }
-      return null;
     }
+  });
+
+  return{
+    denunciar: function(tipo, descripcion){
+      var deferred = $q.defer();
+      var promise = deferred.promise;
+
+      denunciasRes.crear({},
+      function(resp){
+        $log.debug('Denuncia se a creado correctamente');
+        deferred.resolve(resp);
+      },
+      function(err){
+        $log.error( JSON.stringify(err) );
+        deferred.reject("Servidor inaccesible: (" + err.status + ")(" + err.statusText + ")");
+      });
+
+      promise.success = function(fn){
+        promise.then(fn);
+        return promise;
+      }
+      promise.error = function(fn){
+        promise.then(null, fn);
+        return promise;
+      }
+
+      return promise;
+    }
+
   };
+
 });

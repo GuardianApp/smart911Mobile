@@ -1,10 +1,15 @@
 angular.module('starter.controllers', [])
 
+<<<<<<< HEAD
 .controller('DashCtrl', function ($scope, $cordovaGeolocation, $ionicLoading, $ionicPopup, $http, $log, apiUrl) {
     $scope.lat = 0;
     $scope.long = 0;
     $scope.status = "Esperando";
     
+=======
+.controller('DashCtrl', function($scope, $cordovaGeolocation, $ionicLoading, $ionicPopup, $http, $log, apiUrl) {
+
+>>>>>>> 163271d41964ab15b444f0814abbac603668e333
   $ionicLoading.show({
       template: 'Ubicando...'
   });
@@ -19,6 +24,7 @@ angular.module('starter.controllers', [])
       watch.then(null,
         function (err) {
           alert("Error al mandar la peticion:" + err);
+          console.log( JSON.stringify(err) );
         },
         function (position) {
             var lat = position.coords.latitude;
@@ -107,22 +113,30 @@ angular.module('starter.controllers', [])
 
 })
 
-.controller('DenunciasCtrl', function($scope){
+.controller('DenunciasCtrl', function($scope, DenunciasService){
+
   $scope.EnviarDenuncia = function(tipo){
-    alert( tipo );
+    //alert( tipo );
+
+    DenunciasService.denunciar(tipo, 'Necesito ayuda urgente').then(function(resp){
+      alert('Su denuncia se ha recibido');
+    }, function(err){
+      alert('Error');
+      console.log( JSON.stringify(err) );
+    });
+
   }
 
 })
 
-.controller('AccountCtrl', function($scope, $cordovaContacts, $ionicPlatform) {
+.controller('AccountCtrl', function($scope, $cordovaContacts, $ionicPlatform, $log) {
   
+  $scope.contacts = [];
+
   $scope.pickContactUsingNativeUI = function () {
     $cordovaContacts.pickContact().then(function (contactPicked) {
-      $scope.contact = contactPicked;
+      $scope.contacts.push(contactPicked);
     });
   }
-
-
-
 
 });

@@ -8,7 +8,7 @@
 angular.module('smart911-constants', [])
 .constant('apiUrl', 'http://guardian.aaj.webfactional.com');
 
-angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', 'ngCordova','ngMap','smart911-constants'])
+angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', 'ngCordova','ngMap','ngResource','smart911-constants'])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
