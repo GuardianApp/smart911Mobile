@@ -21,11 +21,14 @@ angular.module('starter.services', ['ngResource'])
   });
 
   return{
-    denunciar: function(tipo, descripcion){
+    denunciar: function(tipo, geo){
       var deferred = $q.defer();
       var promise = deferred.promise;
 
-      denunciasRes.crear({},
+      denunciasRes.crear({
+        'tipo' : tipo,
+        'lugar' : 'SRID=4326;POINT ('+geo.lat+' '+ geo.lon +')' 
+      },
       function(resp){
         $log.debug('Denuncia se a creado correctamente');
         deferred.resolve(resp);
