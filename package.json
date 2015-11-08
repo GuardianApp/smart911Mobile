@@ -1,7 +1,7 @@
 {
   "name": "smart911",
   "version": "1.1.1",
-  "description": "smart911: An Ionic project",
+  "description": "smart911: Sistema discreto anti-crimen",
   "dependencies": {
     "gulp": "^3.5.6",
     "gulp-sass": "^2.0.4",
@@ -20,9 +20,12 @@
     "cordova-plugin-whitelist",
     "cordova-plugin-splashscreen",
     "cordova-plugin-statusbar",
-    "ionic-plugin-keyboard"
+    "ionic-plugin-keyboard",
+    "org.apache.cordova.geolocation",
+    "org.apache.cordova.contacts"
   ],
   "cordovaPlatforms": [
-    "ios"
+    "ios",
+    "android"
   ]
 }
